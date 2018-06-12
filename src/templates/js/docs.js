@@ -242,7 +242,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
       MODULE_FILTER = /^(.+)\.filters?:([^\.]+)$/,
       MODULE_CUSTOM = /^(.+)\.([^\.]+):([^\.]+)$/,
       MODULE_SERVICE = /^(.+)\.([^\.]+?)(Provider)?$/,
-	  MODULE_FACTORY = /^(.+)\.([^\.]+?)(Factory)?$/,
+      MODULE_FACTORY = /^(.+)\.([^\.]+?)(Factory)?$/,
+      MODULE_CONSTANT = /^(.+)\.([^\.]+?)(Constant)?$/,
       MODULE_TYPE = /^([^\.]+)\..+\.([A-Z][^\.]+)$/;
 
 
@@ -423,6 +424,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
         module(page.moduleName || match[1], section).directives.push(page);
       } else if (match = id.match(MODULE_FACTORY) && page.type === 'factory') {
         module(page.moduleName || match[1], section).factories.push(page);
+      } else if (match = id.match(MODULE_CONSTANT) && page.type === 'constant') {
+        module(page.moduleName || match[1], section).constants.push(page);
       } else if (match = id.match(MODULE_CUSTOM)) {
         if (page.type === 'service') {
           module(page.moduleName || match[1], section).service(match[3])[page.id.match(/^.+Provider$/) ? 'provider' : 'instance'] = page;
@@ -465,6 +468,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
           directives: [],
           services: [],
           factories: [],
+          constants: [],
           others: [],
           service: function(name) {
             var service =  cache[this.name + ':' + name];

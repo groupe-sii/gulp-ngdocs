@@ -869,6 +869,10 @@ Doc.prototype = {
     this.html_usage_interface(dom)
   },
 
+  html_usage_constant: function(dom) {
+    this.html_usage_interface(dom)
+  },
+
   html_usage_object: function(dom) {
     this.html_usage_interface(dom)
   },
@@ -1119,6 +1123,7 @@ var KEYWORD_PRIORITY = {
   '.dev_guide.templates': 6,
   '.dev_guide.services': 7,
   '.dev_guide.factories': 7,
+  '.dev_guide.constants': 7,
   '.dev_guide.di': 8,
   '.dev_guide.unit-testing': 9
 };

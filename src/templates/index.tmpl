@@ -214,6 +214,13 @@
               <a href="{{constant.url}}" tabindex="2">{{constant.shortName}}</a>
             </li>
 
+            <li class="nav-header section" ng-show="module.constants.length">
+              <a class="guide">component</a>
+            </li>
+            <li ng-repeat="component in module.components track by component.url" class="api-list-item expand">
+              <a href="{{component.url}}" tabindex="2">{{component.shortName}}</a>
+            </li>
+
             <li class="nav-header section" ng-show="module.types.length">
               <a class="guide">Types</a>
             </li>

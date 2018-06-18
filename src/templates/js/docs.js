@@ -244,6 +244,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
       MODULE_SERVICE = /^(.+)\.([^\.]+?)(Provider)?$/,
       MODULE_FACTORY = /^(.+)\.([^\.]+?)(Factory)?$/,
       MODULE_CONSTANT = /^(.+)\.([^\.]+?)(Constant)?$/,
+      MODULE_COMPONENT = /^(.+)\.([^\.]+?)(Component)?$/,
       MODULE_TYPE = /^([^\.]+)\..+\.([A-Z][^\.]+)$/;
 
 
@@ -426,6 +427,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
         module(page.moduleName || match[1], section).factories.push(page);
       } else if (match = id.match(MODULE_CONSTANT) && page.type === 'constant') {
         module(page.moduleName || match[1], section).constants.push(page);
+      } else if (match = id.match(MODULE_COMPONENT) && page.type === 'component') {
+        module(page.moduleName || match[1], section).components.push(page);
       } else if (match = id.match(MODULE_CUSTOM)) {
         if (page.type === 'service') {
           module(page.moduleName || match[1], section).service(match[3])[page.id.match(/^.+Provider$/) ? 'provider' : 'instance'] = page;
@@ -469,6 +472,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
           services: [],
           factories: [],
           constants: [],
+          components: [],
           others: [],
           service: function(name) {
             var service =  cache[this.name + ':' + name];

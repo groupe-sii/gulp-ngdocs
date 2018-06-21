@@ -419,16 +419,16 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
         module(page.moduleName || match[1], section).filters.push(page);
       } else if (match = id.match(MODULE_CONTROLLER) && page.type === 'controller') {
         module(page.moduleName || match[1], section).controllers.push(page);
-      } else if (match = id.match(MODULE_DIRECTIVE)) {
-        module(page.moduleName || match[1], section).directives.push(page);
+      } else if (page.type === 'directive') {
+        module(page.moduleName || match[1], section).directive(page.shortName)['instance'] = page;
       } else if (match = id.match(MODULE_DIRECTIVE_INPUT)) {
-        module(page.moduleName || match[1], section).directives.push(page);
+        module(page.moduleName || match[1], section).directive(page.shortName)['instance'] = page;
       } else if (match = id.match(MODULE_FACTORY) && page.type === 'factory') {
-        module(page.moduleName || match[1], section).factories.push(page);
+        module(page.moduleName || match[1], section).factory(page.shortName)['instance'] = page;
       } else if (match = id.match(MODULE_CONSTANT) && page.type === 'constant') {
-        module(page.moduleName || match[1], section).constants.push(page);
+        module(page.moduleName || match[1], section).constant(page.shortName)['instance'] = page;
       } else if (match = id.match(MODULE_COMPONENT) && page.type === 'component') {
-        module(page.moduleName || match[1], section).components.push(page);
+        module(page.moduleName || match[1], section).component(page.shortName)['instance'] = page;
       } else if (match = id.match(MODULE_CUSTOM)) {
         if (page.type === 'service') {
           module(page.moduleName || match[1], section).service(match[3])[page.id.match(/^.+Provider$/) ? 'provider' : 'instance'] = page;
@@ -482,6 +482,46 @@ docsApp.controller.DocsController = function($scope, $location, $window, section
               this.services.push(service);
             }
             return service;
+          },
+          factory: function(name) {
+            var newName = name.replace(this.name + '.', '');
+            var factory =  cache[this.name + '.' + newName];
+            if (!factory) {
+              factory = {name: newName};
+              cache[this.name + '.' + newName] = factory;
+              this.factories.push(factory);
+            }
+            return factory;
+          },
+          constant: function(name) {
+            var newName = name.replace(this.name + '.', '');
+            var constant =  cache[this.name + '.' + newName];
+            if (!constant) {
+              constant = {name: newName};
+              cache[this.name + '.' + newName] = constant;
+              this.constants.push(constant);
+            }
+            return constant;
+          },
+          component: function(name) {
+            var newName = name.replace(this.name + '.', '');
+            var component =  cache[this.name + '.' + newName];
+            if (!component) {
+              component = {name: newName};
+              cache[this.name + '.' + newName] = component;
+              this.components.push(component);
+            }
+            return component;
+          },
+          directive: function(name) {
+            var newName = name.replace(this.name + '.', '');
+            var directive =  cache[this.name + '.' + newName];
+            if (!directive) {
+              directive = {name: newName};
+              cache[this.name + '.' + newName] = directive;
+              this.directives.push(directive);
+            }
+            return directive;
           },
           types: [],
           filters: []
